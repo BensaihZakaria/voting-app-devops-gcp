@@ -45,6 +45,6 @@ spec:
     spec:
       containers:
         - name: vote
-          image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote:REMPLACE_PAR_LE_TAG
+          image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote:2292bd0904a0c8551716974720a31db2a642f211
           ports:
             - containerPort: 80
