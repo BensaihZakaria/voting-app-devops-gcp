@@ -58,7 +58,7 @@ jobs:
           gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
           docker push "$IMAGE:$GITHUB_SHA"
 
-        deploy:
+  deploy:
     needs: publier
     runs-on: ubuntu-latest
     timeout-minutes: 10
