@@ -45,6 +45,6 @@ spec:
     spec:
       containers:
         - name: vote
-          image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote:2292bd0904a0c8551716974720a31db2a642f211
+          image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote:a1dc6124c81fcd738637860bd8e89b12dc859cd4
           ports:
             - containerPort: 80
