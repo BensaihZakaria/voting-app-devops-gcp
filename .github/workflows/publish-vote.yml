@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'vote/**'
+      - 'result/**'
+      - 'worker/**'
       - '.github/workflows/publish-vote.yml'
 
 permissions:
@@ -15,8 +17,13 @@ jobs:
   publier:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    strategy:
+      matrix:
+        service: [vote, result, worker]
     env:
-      VOTE_IMAGE: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote
+      SERVICE: ${{ matrix.service }}
+      IMAGE: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/${{ matrix.service }}
 
     steps:
       - name: Récupérer le code
@@ -25,11 +32,12 @@ jobs:
           persist-credentials: false
 
       - name: Construire l'image du commit
-        run: docker build --tag "$VOTE_IMAGE:$GITHUB_SHA" ./vote
+        run: docker build --tag "$IMAGE:$GITHUB_SHA" "./$SERVICE"
 
       - name: Tester la page d'accueil
+        if: matrix.service == 'vote'
         run: |
-          docker run --detach --name vote-test --publish 127.0.0.1:18080:80 "$VOTE_IMAGE:$GITHUB_SHA"
+          docker run --detach --name vote-test --publish 127.0.0.1:18080:80 "$IMAGE:$GITHUB_SHA"
           trap 'docker rm -f vote-test >/dev/null' EXIT
           status=$(curl --fail --silent --show-error --retry 12 --retry-delay 1 --retry-all-errors \
             --max-time 5 --output /dev/null --write-out '%{http_code}' http://127.0.0.1:18080/)
@@ -48,4 +56,4 @@ jobs:
       - name: Publier l'image dans Artifact Registry
         run: |
           gcloud auth configure-docker europe-west1-docker.pkg.dev --quiet
-          docker push "$VOTE_IMAGE:$GITHUB_SHA"
+          docker push "$IMAGE:$GITHUB_SHA"
