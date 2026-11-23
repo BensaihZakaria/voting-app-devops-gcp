@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote-public
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: vote
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: result-public
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: result
+  ports:
+    - port: 80
+      targetPort: 80
