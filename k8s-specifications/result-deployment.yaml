@@ -17,6 +17,13 @@ spec:
       containers:
       - image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/result:a1dc6124c81fcd738637860bd8e89b12dc859cd4
         name: result
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 300m
+            memory: 192Mi
         ports:
         - containerPort: 80
           name: result

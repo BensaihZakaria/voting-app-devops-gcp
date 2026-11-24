@@ -17,3 +17,10 @@ spec:
       containers:
       - image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/worker:a1dc6124c81fcd738637860bd8e89b12dc859cd4
         name: worker
+        resources:
+          requests:
+            cpu: 50m
+            memory: 96Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi

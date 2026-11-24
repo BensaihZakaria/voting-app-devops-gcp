@@ -14,6 +14,13 @@ spec:
     spec:
       containers:
         - name: redis
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 300m
+              memory: 128Mi
           image: redis:7-alpine
           ports:
             - containerPort: 6379
@@ -45,6 +52,13 @@ spec:
     spec:
       containers:
         - name: vote
+          resources:
+            requests:
+              cpu: 50m
+              memory: 160Mi
+            limits:
+              cpu: 500m
+              memory: 384Mi
           image: europe-west1-docker.pkg.dev/voting-app-devops-gcp/voting-app/vote:a1dc6124c81fcd738637860bd8e89b12dc859cd4
           ports:
             - containerPort: 80
